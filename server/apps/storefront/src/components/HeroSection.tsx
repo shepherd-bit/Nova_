@@ -1,20 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Plus } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { products } from '../data/products';
 
 interface HeroSectionProps {
   onExploreInventory: () => void;
   onExploreSale: () => void;
-  onSelectProduct: (product: any) => void;
-  onQuickAdd: (product: any) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onExploreInventory,
   onExploreSale,
-  onSelectProduct,
-  onQuickAdd,
 }) => {
   const iphone = products[0];
   const glasses = products[8];
@@ -131,13 +127,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               y: { repeat: Infinity, duration: 6, ease: "easeInOut" },
               rotate: { repeat: Infinity, duration: 8, ease: "easeInOut" }
             }}
-            onClick={() => onSelectProduct(iphone)}
-            className="absolute left-[8%] top-[8%] w-[72%] md:w-[68%] cursor-pointer z-10"
+            className="absolute left-[8%] top-[8%] w-[72%] md:w-[68%] z-10 pointer-events-none"
           >
-            <motion.div 
-              whileHover={{ scale: 1.03, rotate: 0 }}
-              className="rounded-[20px] sm:rounded-[32px] bg-white border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.12)] p-2 sm:p-4 transition-shadow hover:shadow-[0_40px_100px_rgba(108,92,255,0.18)]"
-            >
+            <div className="rounded-[20px] sm:rounded-[32px] bg-white border border-black/10 shadow-[0_30px_80px_rgba(0,0,0,0.12)] p-2 sm:p-4">
               <div className="rounded-[14px] sm:rounded-[24px] aspect-[4/3] overflow-hidden bg-black/5 relative">
                 <img
                   src="./hero-images/smartphone-1.jpg"
@@ -154,19 +146,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     {iphone.brand} • ${iphone.price}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onQuickAdd(iphone);
-                  }}
-                  className="w-7 h-7 sm:w-9 sm:h-9 shrink-0 rounded-full bg-[#111] text-white grid place-items-center hover:bg-black shadow-sm"
-                  aria-label="Add iPhone to cart"
-                >
-                  <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                </button>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Layer 2: Ray-Ban Meta Glasses */}
@@ -182,13 +163,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               y: { repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1 },
               rotate: { repeat: Infinity, duration: 9, ease: "easeInOut", delay: 1 }
             }}
-            onClick={() => onSelectProduct(glasses)}
-            className="absolute right-[2%] top-[30%] w-[64%] md:w-[60%] cursor-pointer z-20"
+            className="absolute right-[2%] top-[30%] w-[64%] md:w-[60%] z-20 pointer-events-none"
           >
-            <motion.div 
-              whileHover={{ scale: 1.03, rotate: 0 }}
-              className="rounded-[20px] sm:rounded-[32px] bg-[#111] text-white border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.25)] p-2 sm:p-4 transition-shadow hover:shadow-[0_40px_100px_rgba(0,0,0,0.4)]"
-            >
+            <div className="rounded-[20px] sm:rounded-[32px] bg-[#111] text-white border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.25)] p-2 sm:p-4">
               <div className="rounded-[14px] sm:rounded-[24px] aspect-[4/3] overflow-hidden bg-white/5 relative">
                 <img
                   src="./hero-images/meta-glasses.jpg"
@@ -209,7 +186,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   NEW
                 </span>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Layer 3: Audio Week badge card */}
@@ -225,13 +202,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               y: { repeat: Infinity, duration: 6.5, ease: "easeInOut", delay: 2 },
               rotate: { repeat: Infinity, duration: 8.5, ease: "easeInOut", delay: 2 }
             }}
-            onClick={onExploreSale}
-            className="absolute left-[20%] bottom-[4%] w-[58%] md:w-[52%] cursor-pointer z-30"
+            className="absolute left-[20%] bottom-[4%] w-[58%] md:w-[52%] z-30 pointer-events-none"
           >
-            <motion.div 
-              whileHover={{ scale: 1.03, rotate: 0 }}
-              className="rounded-[20px] sm:rounded-[32px] bg-[#E8FF5A] border border-black/10 shadow-[0_20px_60px_rgba(0,0,0,0.12)] p-1.5 sm:p-3 transition-shadow hover:shadow-[0_30px_80px_rgba(232,255,90,0.3)]"
-            >
+            <div className="rounded-[20px] sm:rounded-[32px] bg-[#E8FF5A] border border-black/10 shadow-[0_20px_60px_rgba(0,0,0,0.12)] p-1.5 sm:p-3">
               <div className="rounded-[14px] sm:rounded-[20px] aspect-[1/1] overflow-hidden bg-black/5 relative">
                 <img
                   src="./hero-images/headphones.jpg"
@@ -247,7 +220,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   WH-1000XM5 + more • up to 40% off
                 </p>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Scroll Down Badge */}

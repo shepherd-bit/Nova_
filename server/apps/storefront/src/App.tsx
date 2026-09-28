@@ -502,8 +502,6 @@ export default function App() {
           showToast('Sale collection — up to 40% off audio');
           document.getElementById('promos')?.scrollIntoView({ behavior: 'smooth' });
         }}
-        onSelectProduct={handleSelectProduct}
-        onQuickAdd={(p) => handleAddToCart(p, 0, 1)}
       />
 
       {/* 3. Editorial Promo Banners (Audio Week & Glasses Gen 2) */}
