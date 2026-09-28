@@ -6,8 +6,6 @@ import { matchesQuery } from './utils/searchSuggestions';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { PromoBanners } from './components/PromoBanners';
-import { BestSellersSection } from './components/BestSellersSection';
-import { NewArrivalsSection } from './components/NewArrivalsSection';
 import { InventoryCatalog } from './components/InventoryCatalog';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { FilterDrawer } from './components/FilterDrawer';
@@ -22,11 +20,13 @@ const getProductFromPath = (pathname: string): Product | null => {
 
   try {
     const productId = decodeURIComponent(match[1]);
-    return products.find((product) => product.id === productId) ?? null;
+    return visibleProducts.find((product) => product.id === productId) ?? null;
   } catch {
     return null;
   }
 };
+
+const visibleProducts = products.filter((p) => p.id === 'p18');
 
 const getProductPath = (product: Product) => `/products/${encodeURIComponent(product.id)}`;
 
@@ -295,7 +295,7 @@ export default function App() {
   const cartItemsWithProducts: CartItem[] = useMemo(() => {
     return cart
       .map((item) => {
-        const prod = products.find((p) => p.id === item.id);
+        const prod = visibleProducts.find((p) => p.id === item.id);
         if (!prod) return null;
         return {
           id: item.id,
@@ -320,17 +320,17 @@ export default function App() {
 
   // Available brands and categories for Filter Drawer
   const allBrands = useMemo(
-    () => Array.from(new Set(products.map((p) => p.brand))),
+    () => Array.from(new Set(visibleProducts.map((p) => p.brand))),
     []
   );
   const allCategories = useMemo(
-    () => Array.from(new Set(products.map((p) => p.category))),
+    () => Array.from(new Set(visibleProducts.map((p) => p.category))),
     []
   );
 
   // Filtered & Sorted Catalog
   const filteredProducts = useMemo(() => {
-    let result = [...products];
+    let result = [...visibleProducts];
 
     // Search query — same matcher the navbar suggestions use, so a suggestion
     // can never point at a product this grid would then refuse to show.
@@ -391,9 +391,6 @@ export default function App() {
     return result;
   }, [searchQuery, activeCategory, filters, activeSort]);
 
-  const bestSellerProducts = useMemo(() => products.filter((p) => p.isBestSeller), []);
-  const newArrivalProducts = useMemo(() => products.filter((p) => p.isNew).slice(0, 8), []);
-
   const activeFilterCount =
     filters.categories.length +
     filters.brands.length +
@@ -406,7 +403,7 @@ export default function App() {
 
   // If a product is clicked, render the detailed modal view
   if (selectedProduct) {
-    const related = products
+    const related = visibleProducts
       .filter((p) => p.superCategory === selectedProduct.superCategory && p.id !== selectedProduct.id)
       .slice(0, 4);
 
@@ -475,7 +472,7 @@ export default function App() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         searchInputRef={searchInputRef}
-        products={products}
+        products={visibleProducts}
         wishlistCount={wishlist.length}
         cartCount={totalCartCount}
         isCategoriesOpen={isCategoriesOpen}
@@ -520,33 +517,7 @@ export default function App() {
         }}
       />
 
-      {/* 4. Best Sellers Horizontal Snap Section */}
-      <BestSellersSection
-        products={bestSellerProducts}
-        wishlist={wishlist}
-        onToggleWishlist={handleToggleWishlist}
-        onAddToCart={handleToggleCart}
-        isVariantInCart={isVariantInCart}
-        onSelectProduct={handleSelectProduct}
-      />
-
-      {/* 5. New Arrivals Bento Grid */}
-      <NewArrivalsSection
-        products={newArrivalProducts}
-        wishlist={wishlist}
-        onToggleWishlist={handleToggleWishlist}
-        onAddToCart={handleToggleCart}
-        isVariantInCart={isVariantInCart}
-        onSelectProduct={handleSelectProduct}
-        onViewAll={() => {
-          setActiveCategory('All');
-          setActiveSort('Newest');
-          setIsInventoryCatalogOpen(true);
-          document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' });
-        }}
-      />
-
-      {/* 6. Inventory Explorer / Catalog */}
+      {/* 4. Inventory Explorer / Catalog */}
       <InventoryCatalog
         products={filteredProducts}
         wishlist={wishlist}
